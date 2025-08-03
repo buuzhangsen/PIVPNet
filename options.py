@@ -3,7 +3,7 @@ import argparse
 parser = argparse.ArgumentParser()
 
 # 训练控制参数
-parser.add_argument('--resume_ckpt', type=str, default='/project/train/src_repo/AdaIR-main/gunet_best/best-030-22.12.ckpt',
+parser.add_argument('--resume_ckpt', type=str, default='',
                     help='[新添加]从指定检查点加载兼容权重（自动忽略不匹配参数）')
 parser.add_argument('--epochs', type=int, default=300, 
                     help='最大训练轮数')
@@ -24,22 +24,22 @@ parser.add_argument('--num_workers', type=int, default=12,
 parser.add_argument('--data_file_dir', type=str, default='data_dir/',
                     help='基础数据目录')
 parser.add_argument('--denoise_dir', type=str, 
-                    default='/project/train/src_repo/AdaIR-main/data/Train/denoise/high/',
+                    default='data/Train/denoise/high/',
                     help='去噪训练数据路径')
 parser.add_argument('--gopro_dir', type=str, 
-                    default='/project/train/src_repo/AdaIR-main/data/Train/Deblur/',
+                    default='data/Train/Deblur/',
                     help='去模糊训练数据路径')
 parser.add_argument('--enhance_dir', type=str, 
-                    default='/project/train/src_repo/AdaIR-main/data/Train/low_light_image_enhance/',
+                    default='data/Train/low_light_image_enhance/',
                     help='低光增强数据路径')
 parser.add_argument('--derain_dir', type=str, 
-                    default='/project/train/src_repo/AdaIR-main/data/Train/derain/',
+                    default='data/Train/derain/',
                     help='去雨训练数据路径')
 parser.add_argument('--dehaze_dir', type=str, 
-                    default='/project/train/src_repo/AdaIR-main/data/Train/dehaze',
+                    default='data/Train/dehaze',
                     help='去雾训练数据路径')
-# parser.add_argument('--enhance_path', type=str, default="/project/train/src_repo/AdaIR-main/data/test/low_lightimageenhance/", help='save path of test hazy images')
-# parser.add_argument('--derain_path', type=str, default="/project/train/src_repo/AdaIR-main/data/test/derain/", help='save path of test raining images')
+# parser.add_argument('--enhance_path', type=str, default="data/test/low_lightimageenhance/", help='save path of test hazy images')
+# parser.add_argument('--derain_path', type=str, default="data/test/derain/", help='save path of test raining images')
 parser.add_argument('--output_path', type=str, default="output/",
                     help='输出文件路径')
 parser.add_argument('--ckpt_path', type=str, default="ckpt/Denoise/",
@@ -48,9 +48,9 @@ parser.add_argument('--ckpt_path', type=str, default="ckpt/Denoise/",
 # 系统参数
 parser.add_argument('--cuda', type=int, default=0,
                     help='[保留参数]CUDA设备ID')
-parser.add_argument("--wblogger", type=str, default="gunet_128_8_c2",
+parser.add_argument("--wblogger", type=str, default="",
                     help="Wandb项目名称（设为空禁用wandb）")
-parser.add_argument("--ckpt_dir", type=str, default="gunet_128_8_c2",
+parser.add_argument("--ckpt_dir", type=str, default="",
                     help="检查点保存目录")
 parser.add_argument("--num_gpus", type=int, default=2,
                     help="使用的GPU数量")
