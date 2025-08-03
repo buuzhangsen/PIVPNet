@@ -12,9 +12,9 @@ from utils.image_utils import random_augmentation, crop_img
 from utils.degradation_utils import Degradation
 
     
-class AdaIRTrainDataset(Dataset):
+class PIVPNetTrainDataset(Dataset):
     def __init__(self, args,mode='train'):
-        super(AdaIRTrainDataset, self).__init__()
+        super(PIVPNetTrainDataset, self).__init__()
         self.args = args
         self.rs_ids = []
         self.hazy_ids = []
