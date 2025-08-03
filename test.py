@@ -148,15 +148,14 @@ if __name__ == '__main__':
     parser.add_argument('--mode', type=int, default=6,
                         help='0 for denoise, 1 for derain, 2 for dehaze, 3 for deblur, 4 for enhance, 5 for all-in-one (three tasks), 6 for all-in-one (five tasks)')
     
-    parser.add_argument('--gopro_path', type=str, default="/project/train/src_repo/PIVPNet-main/data/test/", help='save path of test hazy images')
-    parser.add_argument('--enhance_path', type=str, default="/project/train/src_repo/PIVPNet-main/data/test/low_lightimageenhance/", help='save path of test hazy images')
-    parser.add_argument('--denoise_path', type=str, default="/project/train/src_repo/PIVPNet-main/data/test/denoise/", help='save path of test noisy images')
-    parser.add_argument('--derain_path', type=str, default="/project/train/src_repo/PIVPNet-main/data/test/derain/", help='save path of test raining images')
-    parser.add_argument('--dehaze_path', type=str, default="/project/train/src_repo/PIVPNet-main/data/test/dehaze/SOTS/", help='save path of test hazy images')
+    parser.add_argument('--gopro_path', type=str, default="data/test/", help='save path of test hazy images')
+    parser.add_argument('--enhance_path', type=str, default="data/test/low_lightimageenhance/", help='save path of test hazy images')
+    parser.add_argument('--denoise_path', type=str, default="data/test/denoise/", help='save path of test noisy images')
+    parser.add_argument('--derain_path', type=str, default="data/test/derain/", help='save path of test raining images')
+    parser.add_argument('--dehaze_path', type=str, default="data/test/dehaze/SOTS/", help='save path of test hazy images')
 
     parser.add_argument('--output_path', type=str, default="PIVPNet_results/", help='output save path')
-    # parser.add_argument('--ckpt_name', type=str, default="/project/train/src_repo/PIVPNet-main/PIVPNet/epoch=149-step=315000.ckpt", help='checkpoint save path')
-    parser.add_argument('--ckpt_name', type=str, default="/project/train/src_repo/PIVPNet-main/PIVPNet_best/best-033-36.61.ckpt", help='checkpoint save path')
+    parser.add_argument('--ckpt_name', type=str, default="", help='checkpoint save path')
     testopt = parser.parse_args()
     
     np.random.seed(0)
@@ -167,16 +166,6 @@ if __name__ == '__main__':
     derain_splits = ["Rain100L/"]
     deblur_splits = ["GoPro/"]
     enhance_splits = ["LoLv1/"]
-    denoise_tests = []
-    derain_tests = []
-    best_rain_ssim=0
-    best_rain_psnr=0
-    best_haze_ssim=0
-    best_haze_psnr=0
-    best_rain_ssim_1=''
-    best_rain_psnr_1=''
-    best_haze_ssim_1=''
-    best_haze_psnr_1=''
 
     base_path = testopt.denoise_path
     for i in denoise_splits:
