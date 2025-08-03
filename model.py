@@ -213,9 +213,9 @@ class FeedForward(nn.Module):
     
     
 
-class gUNet(nn.Module):
+class PIVPNet(nn.Module):
     def __init__(self, kernel_size=5, base_dim=32, depths=[8, 8, 8, 16, 8, 8, 8], conv_layer=ConvLayer, norm_layer=nn.BatchNorm2d, gate_act=nn.Sigmoid, fusion_layer=SKFusion, PromptGenBlock=PromptGenBlock,FeedForward = FeedForward):
-        super(gUNet, self).__init__()
+        super(PIVPNet, self).__init__()
         # setting
         assert len(depths) % 2 == 1
         stage_num = len(depths)
