@@ -8,14 +8,14 @@ from lightning.pytorch.loggers import WandbLogger, TensorBoardLogger
 from lightning.pytorch.callbacks import ModelCheckpoint
 from lightning.pytorch.strategies import DDPStrategy
 import argparse
-from utils.dataset_utils import AdaIRTrainDataset,DerainDehazeDatasetval
-from net.model import gUNet
+from utils.dataset_utils import PIVPNetTrainDataset,DerainDehazeDatasetval
+from net.model import PIVPNet
 from utils.schedulers import LinearWarmupCosineAnnealingLR
 import numpy as np
 import wandb
 from options import options as opt
 
-class AdaIRModel(pl.LightningModule):
+class PIVPNetModel(pl.LightningModule):
     def __init__(self):
         super().__init__()
         self.net = gUNet()
@@ -28,15 +28,10 @@ class AdaIRModel(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         ([clean_name, de_id], degrad_patch, clean_patch) = batch
         restored = self.net(degrad_patch)
-
-        # 分别计算三种损失
         l1_loss = self.loss_fn(restored, clean_patch)
 
-
-        # 加权总损失（根据需求调整权重）
         loss = l1_loss 
 
-        # 记录所有损失（总损失和分项损失）
         self.log("train_loss/total", loss, prog_bar=True, sync_dist=True)
 
         
@@ -59,8 +54,8 @@ class AdaIRModel(pl.LightningModule):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--enhance_path', type=str, default="/project/train/src_repo/AdaIR-main/data/test/low_lightimageenhance/LoLv1/", help='save path of test hazy images')
-    parser.add_argument('--derain_path', type=str, default="/project/train/src_repo/AdaIR-main/data/test/derain/Rain100L/", help='save path of test raining images')
+    parser.add_argument('--enhance_path', type=str, default="data/test/low_lightimageenhance/LoLv1/", help='save path of test hazy images')
+    parser.add_argument('--derain_path', type=str, default="data/test/derain/Rain100L/", help='save path of test raining images')
     args = parser.parse_args()
     print("Options")
     print(opt)
@@ -71,7 +66,7 @@ def main():
         logger = TensorBoardLogger(save_dir="logs/")
 
     # 数据集和加载器
-    trainset = AdaIRTrainDataset(opt)
+    trainset = PIVPNetTrainDataset(opt)
     valset = DerainDehazeDatasetval(args)  # 需要实现验证模式
     
     trainloader = DataLoader(
@@ -111,7 +106,7 @@ def main():
     
     if opt.resume_ckpt:
         print(f"Loading weights from checkpoint: {opt.resume_ckpt}")
-        model = AdaIRModel()
+        model = PIVPNetModel()
         
         # 加载检查点并处理权重
         checkpoint = torch.load(opt.resume_ckpt, map_location='cuda')
@@ -145,7 +140,7 @@ def main():
             except:
                 print("Failed to restore optimizer state")
     else:
-        model = AdaIRModel()
+        model = PIVPNetModel()
 
     # 训练器配置
     strategy = DDPStrategy(find_unused_parameters=True)
