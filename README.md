@@ -1,19 +1,12 @@
-# AdaIR: Adaptive All-in-One Image Restoration via Frequency Mining and Modulation (ICLR'25)
+# All-in-one Image Restoration Method via Prior Information and Visual Perception Prompt
 
-Yuning Cui, [Syed Waqas Zamir](https://scholar.google.ae/citations?hl=en&user=POoai-QAAAAJ), [Salman Khan](https://salman-h-khan.github.io/), [Alois Knoll](https://scholar.google.com.hk/citations?user=-CA8QgwAAAAJ&hl=zh-CN&oi=ao), [Mubarak Shah](https://scholar.google.com.hk/citations?user=p8gsO3gAAAAJ&hl=zh-CN&oi=ao), and [Fahad Shahbaz Khan](https://scholar.google.es/citations?user=zvaeYnUAAAAJ&hl=en)
-
-[![paper](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2403.14614)
 <hr />
 
-> **Abstract:** *In the image acquisition process, various forms of degradation, including noise, blur, haze, and rain, are frequently introduced. These degradations typically arise from the inherent limitations of cameras or unfavorable ambient conditions. To recover clean images from their degraded versions, numerous specialized restoration methods have been developed, each targeting a specific type of degradation. Recently, all-in-one algorithms have garnered significant attention by addressing different types of degradations within a single model without requiring the prior information of the input degradation type. However, these methods purely operate in the spatial domain and do not delve into the distinct frequency variations inherent to different degradation types. To address this gap, we propose an adaptive all-in-one image restoration network based on frequency mining and modulation. Our approach is motivated by the observation that different degradation types impact the image content on different frequency subbands, thereby requiring different treatments for each restoration task. Specifically, we first mine low- and high-frequency information from the input features, guided by the adaptively decoupled spectra of the degraded image. The extracted features are then modulated by a bidirectional operator to facilitate interactions between different frequency components. Finally, the modulated features are merged into the original input for a progressively guided restoration. With this approach, the model achieves adaptive reconstruction by accentuating the informative frequency subbands according to different input degradations. Extensive experiments demonstrate that the proposed method, named AdaIR, achieves state-of-the-art performance on different image restoration tasks, including image denoising, dehazing, deraining, motion deblurring, and low-light image enhancement.* 
+> **Abstract:** *All-in-one image restoration seeks to address diverse image degradations—such as haze, rain, noise, blur, and low-light conditions—within a single, unified network. However, a fundamental challenge lies in balancing high-fidelity restoration quality with strong generalization across heterogeneous degradation types, particularly under lightweight model constraints. In this work, we propose PIVPNet, a novel Prior-Informed and Visual-Prompted Network that introduces a dual-guidance adaptive learning framework for efficient multi-task image restoration. The core innovation of PIVPNet lies in its degradation-aware modular design, which synergistically integrates three key components: the Prior Information Guidance Module, which explicitly models degradation-specific priors to guide feature learning;  the Visual Perception Prompt Module, which introduces learnable visual prompts to dynamically adapt the network’s attention to varying degradation patterns; and the Lightweight Detail Enhancement Module, which jointly refines spatial and frequency-domain features to recover fine textures with minimal computational overhead. Unlike existing multi-task frameworks that rely on shared backbones with static fusion strategies, PIVPNet enables task-aware feature modulation through prompt-based conditional adaptation, significantly improving both restoration fidelity and model generalization. Numerous experiments have shown that PIVPNet can achieve good results with only one-third of the existing method parameters. Notably, on image dehazing, our method surpasses the best-performing model by 6\% in PSNR, and achieves an average gain of 0.16 dB across all tasks, despite its compact architecture. These results highlight the effectiveness of prior-informed guidance and prompt-driven perception adaptation in multi-task restoration, offering a new paradigm for efficient and generalizable all-in-one image restoration. * 
 <hr />
 
 ## Network Architecture
 <img src = "figs/AdaIR.png"> 
-
-## Installation and Data Preparation
-
-See [INSTALL.md](INSTALL.md) for the installation of dependencies and dataset preperation required to run this codebase.
 
 ## Training
 
@@ -30,7 +23,7 @@ python train.py --de_type derain dehaze
 
 ## Testing
 
-After preparing the testing data in ```test/``` directory, place the mode checkpoint file in the ```ckpt``` directory. The pre-trained model can be downloaded [here](https://drive.google.com/drive/folders/1x2LN4kWkO3S65jJlH-1INUFiYt8KFzPH?usp=sharing). To perform the evaluation, use
+After preparing the testing data in ```test/``` directory, place the mode checkpoint file in the ```ckpt``` directory. To perform the evaluation, use
 ```
 python test.py --mode {n}
 ```
@@ -57,45 +50,4 @@ python demo.py --test_path './test/demo/image.png' --output_path './output/demo/
 ```
 To use tiling option while running ```demo.py``` set ```--tile``` option to ```True```. The Tile size and Tile overlap parameters can be adjusted using ```--tile_size``` and ```--tile_overlap``` options respectively. -->
 
-
-
-
 ## Results
-Performance results of the AdaIR framework trained under the all-in-one setting.
-
-<details>
-<summary><strong>Three Distinct Degradations</strong> (click to expand) </summary>
-
-<img src = "figs/adair3d.PNG"> 
-</details>
-<details>
-<summary><strong>Five Distinct Degradations</strong> (click to expand) </summary>
-
-<img src = "figs/adair5d.PNG"> 
-</details><br>
-
-The visual results can be downloaded [here](https://drive.google.com/drive/folders/1lsYFumrn3-07Vcl3TZy0dzMMA9yDTpSK?usp=sharing).
-
-<!-- The visual results of the AdaIR model evaluated under the all-in-one setting can be downloaded [here](https://drive.google.com/drive/folders/1Sm-mCL-i4OKZN7lKuCUrlMP1msYx3F6t?usp=sharing) -->
-
-
-
-## Citation
-If you use our work, please consider citing:
-~~~
-@inproceedings{cui2025adair,
-      title={AdaIR: Adaptive All-in-One Image Restoration via Frequency Mining and Modulation}, 
-      author={Cui, Yuning and Zamir, Syed Waqas and Khan, Salman and Knoll, Alois and Shah, Mubarak and Khan, Fahad Shahbaz},
-      booktitle={The Thirteenth International Conference on Learning Representations},
-      year={2025}
-}
-~~~
-
-
-
-## Contact
-Should you have any questions, please contact yuning.cui@in.tum.de
-
-
-**Acknowledgment:** This code is based on the [PromptIR](https://github.com/va1shn9v/PromptIR) repository. 
-
