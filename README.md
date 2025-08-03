@@ -6,7 +6,7 @@
 <hr />
 
 ## Network Architecture
-<img src = "figs/AdaIR.png"> 
+<img src = "PIVPNet.jpg"> 
 
 ## Training
 
